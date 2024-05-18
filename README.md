@@ -25,3 +25,28 @@ The project is designed with the following components:
 - Cassandra
 - PostgreSQL
 - Docker
+
+## Getting Started
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/borabii/e2e-Kafka-spark-pipelines
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd e2e-Kafka-spark-pipelines
+   ```
+
+3. Run Docker cp to copy the spark code to the spark container:
+
+   ```bash
+   docker cp .\spark_stream.py <spark-container-id>:/opt/bitnami/spark/spark-apps/spark_stream.py
+   ```
+
+4. Run Docker exec to subpit the code to the spark-master:
+   ```bash
+   docker exec -it d97 spark-submit --master spark://spark-master:7077 /opt/bitnami/spark/spark-apps/spark_connection.py
+   ```
