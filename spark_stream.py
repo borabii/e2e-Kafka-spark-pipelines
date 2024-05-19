@@ -67,6 +67,7 @@ def create_spark_connection():
     s_conn = None
 
     try:
+        #!!!!!!download this jars
         s_conn = SparkSession.builder \
             .appName('SparkDataStreaming') \
             .master('spark://spark-master:7077') \
@@ -88,8 +89,8 @@ def connect_to_kafka(spark_conn):
     try:
         spark_df = spark_conn.readStream \
             .format('kafka') \
-            .option('kafka.bootstrap.servers', 'localhost:9092') \
-            .option('subscribe', 'users_created') \
+            .option('kafka.bootstrap.servers', 'localhost:29092') \
+            .option('subscribe', 'test') \
             .option('startingOffsets', 'earliest') \
             .load()
         logging.info("kafka dataframe created successfully")
@@ -137,14 +138,15 @@ def create_selection_df_from_kafka(spark_df):
 if __name__ == "__main__":
     # create spark connection
     spark_conn = create_spark_connection()
-
+    logging.info("Spark Connected.")
     if spark_conn is not None:
         # connect to kafka with spark connection
         spark_df = connect_to_kafka(spark_conn)
-        selection_df = create_selection_df_from_kafka(spark_df)
-        session = create_cassandra_connection()
+        print(spark_df)
+        #selection_df = create_selection_df_from_kafka(spark_df)
+        #session = create_cassandra_connection()
 
-        if session is not None:
+        """ if session is not None:
             create_keyspace(session)
             create_table(session)
 
@@ -157,3 +159,4 @@ if __name__ == "__main__":
                                .start())
 
             streaming_query.awaitTermination() 
+ """
